@@ -2,15 +2,19 @@ package com.hyungyu.webservice.domain;
 
 import com.hyungyu.webservice.domain.post.Post;
 import com.hyungyu.webservice.domain.post.PostRepository;
+import com.hyungyu.webservice.dto.PostMainResponseDto;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -65,6 +69,18 @@ public class PostRepositoryTest {
         Post post = postList.get(0);
         assertTrue(post.getCreatedDate().isAfter(now));
         assertTrue(post.getModifiedDate().isAfter(now));
+    }
+
+    @Test
+    @Transactional(readOnly = true)
+    public void 게시글_리스트_불러오기() {
+        // when
+        Stream<Post> posts = postRepository.findAllDesc();
+
+        List<PostMainResponseDto> postList = posts.map(post -> new PostMainResponseDto(post)).collect(Collectors.toList());
+        // then
+        assertThat(postList.isEmpty(), is(false));
+        assertThat(postList.size(), is(2));
     }
 
 }

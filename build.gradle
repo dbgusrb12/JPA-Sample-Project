@@ -24,8 +24,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // thymeleaf 처리 디펜던시
+    // thymeleaf , layout, paging 처리 디펜던시
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
+    compile group: 'io.github.jpenren', name: 'thymeleaf-spring-data-dialect', version: '3.4.0'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
